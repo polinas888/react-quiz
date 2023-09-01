@@ -1,19 +1,29 @@
-function Options({
-  question,
-  quizDispatch,
-  answerId,
-  questionIndex,
-  numQuestions,
-}) {
+import { useQuiz } from "../QuizContext";
+
+function Options() {
+  const {
+    chooseAnswer,
+    nextQuestion,
+    finishQuiz,
+    answerId,
+    questionIndex,
+    questions,
+  } = useQuiz();
   return (
     <div className="options">
-      {question.options.map((option, index) => (
+      {questions[questionIndex].options.map((option, index) => (
         <button
-          onClick={() => quizDispatch({ type: "chooseAnswer", payload: index })}
+          onClick={() => chooseAnswer(index)}
           className={`btn btn-option ${
             answerId && answerId - 1 === index ? "answer" : ""
-          }  ${answerId && index === question.correctOption ? "correct" : ""} ${
-            answerId && index !== question.correctOption ? "wrong" : ""
+          }  ${
+            answerId && index === questions[questionIndex].correctOption
+              ? "correct"
+              : ""
+          } ${
+            answerId && index !== questions[questionIndex].correctOption
+              ? "wrong"
+              : ""
           }`}
           key={option}
           disabled={answerId}
@@ -21,19 +31,13 @@ function Options({
           {option}
         </button>
       ))}
-      {questionIndex !== numQuestions - 1 && answerId !== null && (
-        <button
-          className="btn btn-ui"
-          onClick={() => quizDispatch({ type: "nextQuestion" })}
-        >
+      {questionIndex !== questions.length - 1 && answerId !== null && (
+        <button className="btn btn-ui" onClick={nextQuestion}>
           Next
         </button>
       )}
-      {questionIndex === numQuestions - 1 && (
-        <button
-          className="btn btn-ui"
-          onClick={() => quizDispatch({ type: "finishQuiz" })}
-        >
+      {questionIndex === questions.length - 1 && (
+        <button className="btn btn-ui" onClick={finishQuiz}>
           Finish
         </button>
       )}

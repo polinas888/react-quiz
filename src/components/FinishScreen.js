@@ -1,14 +1,14 @@
-function FinishScreen({ points, totalPoints, quizDispatch }) {
+import { useQuiz } from "../QuizContext";
+
+function FinishScreen() {
+  const { points, maxPoints, refreshQuiz } = useQuiz();
   return (
     <>
       <p className="result">
         You finished quiz with the score <strong>{points}</strong> from
-        {totalPoints} ({Math.ceil((points / totalPoints) * 100)}%)
+        {maxPoints} ({Math.ceil((points / maxPoints) * 100)}%)
       </p>
-      <button
-        className="btn btn-ui"
-        onClick={() => quizDispatch({ type: "refreshQuiz" })}
-      >
+      <button className="btn btn-ui" onClick={refreshQuiz}>
         Play again
       </button>
     </>

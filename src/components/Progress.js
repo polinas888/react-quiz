@@ -1,6 +1,8 @@
 import "../index.css";
+import { useQuiz } from "../QuizContext";
 
-function Progress({ questions, questionIndex, points, maxPoints }) {
+function Progress() {
+  const { questions, questionIndex, points, maxPoints } = useQuiz();
   const progressValue = (questionIndex / questions.length) * questions.length;
 
   return (
